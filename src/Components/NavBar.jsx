@@ -1,15 +1,23 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../Assets/Css/Images/MAIN LOGO.png";
 import { useState, useEffect } from "react";
 import { useCart } from "./Cart/CartContext";
 import { useWishlist } from "./Cart/WishlistContext";
+import AddressModal from "./AddressModal";
+
 function NavBar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [isLoggedIn, setIsLoggedIn]       = useState(false);
+  const [userName, setUserName]           = useState("");
+  const [showDropdown, setShowDropdown]   = useState(false);
+  const [deliveryAddress, setDeliveryAddress] = useState(() => {
+    const email = localStorage.getItem("email") || "";
+    return email ? localStorage.getItem(`deliveryAddress_${email}`) || "" : "";
+  });
+  const [showAddressModal, setShowAddressModal] = useState(false);
   const { totalItems } = useCart();
   const { totalWishlist } = useWishlist();
+  const navigate = useNavigate();
   useEffect(() => {
 
   const loginStatus = localStorage.getItem("isLoggedIn");
@@ -33,6 +41,10 @@ const handleLogout = () => {
 };
   return (
     <>
+      {showAddressModal && (
+        <AddressModal onSave={(addr) => { setDeliveryAddress(addr); setShowAddressModal(false); }} />
+      )}
+
       {/* <!--Top Bar--> */}
       <div className="bg-gradient-to-r from-[#013f21] via-[#001f0f] to-[#01522b] text-white text-sm">
         <div className="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
@@ -41,11 +53,27 @@ const handleLogout = () => {
             <span>Delivering Freshness to Your Home</span>
           </div>
 
+          {/* Address — dynamic */}
           <div className="flex items-center gap-2">
             <i className="ri-map-pin-line"></i>
-            <span>
-              49/1, New Gandhipuram, Sendamangalam Post, Namakkal District
-            </span>
+            {deliveryAddress ? (
+              <button
+                onClick={() => setShowAddressModal(true)}
+                className="hover:text-green-300 transition text-left truncate max-w-xs"
+              >
+                {deliveryAddress}
+              </button>
+            ) : isLoggedIn ? (
+              <button
+                onClick={() => setShowAddressModal(true)}
+                className="flex items-center gap-1.5 text-green-300 hover:text-white transition font-medium"
+              >
+                <i className="ri-add-circle-line"></i>
+                Set Delivery Address
+              </button>
+            ) : (
+              <span className="text-white/70">10 Min Delivery • Farm Fresh • Best Prices</span>
+            )}
           </div>
 
           <div className="flex items-center gap-6">
@@ -53,7 +81,6 @@ const handleLogout = () => {
               <i className="ri-customer-service-2-line"></i>
               <span>Support</span>
             </div>
-
             <div className="flex items-center gap-2">
               <i className="ri-phone-line"></i>
               <span>+91 6383945642</span>
@@ -65,19 +92,43 @@ const handleLogout = () => {
       {/* <!--Main NavBar--> */}
       <nav className="sticky top-0 z-50 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-3">
-              <img src={logo} alt="BODEGA LOGO" className="w-16 h-16" />
+          <div className="flex items-center justify-between h-20 gap-4">
+            <Link to="/" className="flex items-center gap-2 cursor-pointer shrink-0">
+              <img src={logo} alt="BODEGA LOGO" className="w-14 h-14" />
               <div>
-                <h1 className="font-bold text-4xl text-green-800">BODEGA</h1>
-                <p className="text-xs text-orange-500 font-medium">
+                <h1 className="font-extrabold text-4xl text-green-800 tracking-tight">BODEGA</h1>
+                <p className="text-[11px] text-orange-500 font-semibold">
                   A Place to Feel Fresh Groceries
                 </p>
               </div>
+            </Link>
+
+            {/* Search Bar */}
+            <div className="flex-1 max-w-xs">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const q = e.target.search.value.trim();
+                  if (q) navigate(`/products?search=${encodeURIComponent(q)}`);
+                  else navigate("/products");
+                }}
+                className="flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 gap-2 focus-within:border-green-500 focus-within:bg-white transition"
+              >
+                <i className="ri-search-line text-gray-400 text-sm"></i>
+                <input
+                  name="search"
+                  type="text"
+                  placeholder="Search products..."
+                  className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400 w-0 min-w-0"
+                />
+                <button type="submit" className="text-green-700 hover:text-green-900 transition cursor-pointer shrink-0">
+                  <i className="ri-arrow-right-line text-sm"></i>
+                </button>
+              </form>
             </div>
 
             {/* <!--Menu--> */}
-            <ul className="flex items-center gap-10 font-semibold text-gray-700">
+            <ul className="flex items-center gap-5 font-semibold text-gray-700 shrink-0 text-sm">
               <li>
                 <NavLink
                   to="/"
@@ -144,8 +195,8 @@ const handleLogout = () => {
             </ul>
 
             {/* <!--Right Side--> */}
-            <div className="flex items-center gap-4">
-              <Link to="/cart" className="relative flex items-center gap-2 border border-green-200 bg-green-50 px-5 py-3 rounded-xl text-green-800 font-semibold hover:bg-green-100 transition">
+            <div className="flex items-center gap-3 shrink-0">
+              <Link to="/cart" className="relative flex items-center gap-1.5 border border-green-200 bg-green-50 px-3 py-2 rounded-xl text-green-800 font-semibold hover:bg-green-100 transition text-sm">
                 <i className="ri-shopping-cart-line"></i>
                 Cart
                 {totalItems > 0 && (

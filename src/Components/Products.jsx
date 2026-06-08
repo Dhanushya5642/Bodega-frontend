@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import ProductCard from "./Products/ProductCard";
 
-// Category images
-import FreshVegetablesImg from "../Assets/Css/Images/Categories/Fresh_Vegetables.png";
-import FruitsCollectionsImg from "../Assets/Css/Images/Categories/Fruits_Collections.png";
-import DailyEssentialsImg from "../Assets/Css/Images/Categories/Daily_Essentials.png";
-import SnacksAndBeveragesImg from "../Assets/Css/Images/Categories/SnacksAndBeverages.png";
-import PersonalCareImg from "../Assets/Css/Images/Categories/Personal_Care.png";
+// Category images — same as Homepage
+import vegetables from "../Assets/Css/Images/Categories/Fresh_Vegetables.png";
+import fruits from "../Assets/Css/Images/Categories/Fruits_Collections.png";
+import dairy from "../Assets/Css/Images/Categories/Daily_Essentials.png";
+import snacks from "../Assets/Css/Images/Categories/SnacksAndBeverages.png";
+import personal from "../Assets/Css/Images/Categories/PersonalCare.png";
 
 // Dairy images
 import MilkImg from "../Assets/Css/Images/DairyEssentials/Milk.png";
@@ -84,7 +85,15 @@ import ApricotsImg from "../Assets/Css/Images/Fruits/apricots.png";
 import PlumImg from "../Assets/Css/Images/Fruits/plum.png";
 
 function Products() {
-  const [activeCategory, setActiveCategory] = useState(null);
+  const location = useLocation();
+  const searchQuery = new URLSearchParams(location.search).get("search") || "";
+  const categoryParam = new URLSearchParams(location.search).get("category") || null;
+  const [activeCategory, setActiveCategory] = useState(categoryParam);
+  const [sortBy, setSortBy] = useState("");
+  const [showSort, setShowSort] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterInStock, setFilterInStock] = useState(false);
+  const [filterMaxPrice, setFilterMaxPrice] = useState(300);
 
   const productsList = [
     { id: 1,  name: "Fresh Tomato",    category: "Vegetables", weight: "500g",    price: 40,  oldPrice: 60,  rating: "4.8 (1.2k)", image: TomatoImg,        deliveryTime: "7 min",  tags: ["Bestseller"], inStock: true },
@@ -170,49 +179,66 @@ function Products() {
 
   const shuffledProducts = useMemo(() => [...productsList].sort(() => Math.random() - 0.5), []);
 
-  const categories = [
-    { title1: "Fresh", title2: "Vegetables", discount: "Flat 30% OFF", bg: "bg-[#e2ecd9]", text: "text-green-800", img: FreshVegetablesImg, filter: "Vegetables" },
-    { title1: "Fruits", title2: "Collection", discount: "Flat 25% OFF", bg: "bg-[#fbeecd]", text: "text-amber-900", img: FruitsCollectionsImg, filter: "Fruits" },
-    { title1: "Dairy", title2: "Essentials", discount: "Upto 40% OFF", bg: "bg-[#d8ecfa]", text: "text-blue-800", img: DailyEssentialsImg, filter: "Dairy" },
-    { title1: "Snacks &", title2: "Beverages", discount: "Upto 35% OFF", bg: "bg-[#fbe6d0]", text: "text-amber-950", img: SnacksAndBeveragesImg, filter: "Snacks" },
-    { title1: "Personal", title2: "Care", discount: "Upto 30% OFF", bg: "bg-[#fcdbe6]", text: "text-pink-800", img: PersonalCareImg, filter: "Personal Care" },
-  ];
-
   return (
     <div className="min-h-screen bg-[#f8f8f5] flex flex-col text-gray-800">
       <div className="max-w-[1600px] w-full mx-auto px-6 py-6 space-y-6 flex-1 flex flex-col min-w-0">
 
-        {/* 1. TOP CATEGORIES BANNER ROW */}
-        <section className="relative">
-          <div className="grid grid-cols-5 gap-4">
-            {categories.map((cat, idx) => (
-              <div
-                key={idx}
-                onClick={() => setActiveCategory(activeCategory === cat.filter ? null : cat.filter)}
-                className={`relative h-[300px] ${cat.bg} rounded-[24px] overflow-hidden cursor-pointer hover:scale-[1.02] hover:shadow-md transition duration-200 p-6 flex flex-col justify-between border-2 ${
-                  activeCategory === cat.filter ? "border-green-600 ring-2 ring-green-400 scale-[1.02] shadow-lg" : "border-gray-100/30"
-                }`}
-              >
-                {activeCategory === cat.filter && (
-                  <span className="absolute top-3 right-3 z-20 bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Selected</span>
-                )}
-                <div className="text-left shrink-0 z-10">
-                  <h3 className={`text-2xl font-bold ${cat.text} leading-tight`}>
-                    {cat.title1}<br />{cat.title2}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">{cat.discount}</p>
-                </div>
-                <img
-                  src={cat.img}
-                  alt={`${cat.title1} ${cat.title2}`}
-                  className="absolute bottom-0 left-0 w-full h-[170px] object-cover select-none"
-                />
-              </div>
-            ))}
+        {/* 1. TOP CATEGORIES BANNER ROW - hide when searching */}
+        {!searchQuery && (
+        <section className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-5 gap-4">
+
+            <div
+              onClick={() => setActiveCategory(activeCategory === "Vegetables" ? null : "Vegetables")}
+              style={{ backgroundImage: `url(${vegetables})`, backgroundSize: "cover", backgroundPosition: "center" }}
+              className={`h-80 rounded-3xl p-5 cursor-pointer hover:scale-[1.02] hover:shadow-lg transition duration-200 block ${activeCategory === "Vegetables" ? "ring-4 ring-green-600 scale-[1.02] shadow-lg" : ""}`}
+            >
+              <h3 className="text-3xl font-bold text-green-900">Fresh<br />Vegetables</h3>
+              <p className="mt-3 text-xs text-gray-700 font-medium">Flat 30% OFF</p>
+            </div>
+
+            <div
+              onClick={() => setActiveCategory(activeCategory === "Fruits" ? null : "Fruits")}
+              style={{ backgroundImage: `url(${fruits})`, backgroundSize: "cover", backgroundPosition: "center" }}
+              className={`h-80 rounded-3xl p-5 cursor-pointer hover:scale-[1.02] hover:shadow-lg transition duration-200 block ${activeCategory === "Fruits" ? "ring-4 ring-green-600 scale-[1.02] shadow-lg" : ""}`}
+            >
+              <h3 className="text-3xl font-bold text-amber-900">Fruits<br />Collection</h3>
+              <p className="mt-3 text-xs text-gray-700 font-medium">Flat 25% OFF</p>
+            </div>
+
+            <div
+              onClick={() => setActiveCategory(activeCategory === "Dairy" ? null : "Dairy")}
+              style={{ backgroundImage: `url(${dairy})`, backgroundSize: "cover", backgroundPosition: "center" }}
+              className={`h-80 rounded-3xl p-5 cursor-pointer hover:scale-[1.02] hover:shadow-lg transition duration-200 block ${activeCategory === "Dairy" ? "ring-4 ring-green-600 scale-[1.02] shadow-lg" : ""}`}
+            >
+              <h3 className="text-3xl font-bold text-slate-800">Dairy<br />Essentials</h3>
+              <p className="mt-3 text-xs text-gray-700 font-medium">Upto 40% OFF</p>
+            </div>
+
+            <div
+              onClick={() => setActiveCategory(activeCategory === "Snacks" ? null : "Snacks")}
+              style={{ backgroundImage: `url(${snacks})`, backgroundSize: "cover", backgroundPosition: "center" }}
+              className={`h-80 rounded-3xl p-5 cursor-pointer hover:scale-[1.02] hover:shadow-lg transition duration-200 block ${activeCategory === "Snacks" ? "ring-4 ring-green-600 scale-[1.02] shadow-lg" : ""}`}
+            >
+              <h3 className="text-3xl font-bold text-amber-900">Snacks &<br />Beverages</h3>
+              <p className="mt-3 text-xs text-gray-700 font-medium">Upto 35% OFF</p>
+            </div>
+
+            <div
+              onClick={() => setActiveCategory(activeCategory === "Personal Care" ? null : "Personal Care")}
+              style={{ backgroundImage: `url(${personal})`, backgroundSize: "cover", backgroundPosition: "center" }}
+              className={`h-80 rounded-3xl p-5 cursor-pointer hover:scale-[1.02] hover:shadow-lg transition duration-200 block ${activeCategory === "Personal Care" ? "ring-4 ring-green-600 scale-[1.02] shadow-lg" : ""}`}
+            >
+              <h3 className="text-3xl font-bold text-rose-900">Personal<br />Care</h3>
+              <p className="mt-3 text-xs text-gray-700 font-medium">Upto 30% OFF</p>
+            </div>
+
           </div>
         </section>
+        )}
 
-        {/* 2. MAIN HERO BANNER */}
+        {/* 2. MAIN HERO BANNER - hide when searching or category selected */}
+        {!searchQuery && !activeCategory && (
         <section className="bg-[#edf5e7] border border-green-100/55 rounded-[28px] p-8 relative overflow-hidden flex h-[240px] items-center justify-between shadow-sm">
           <div className="w-[55%] text-left">
             <span className="text-green-700 text-xs font-medium tracking-widest uppercase block">BODEGA SPECIAL</span>
@@ -235,21 +261,53 @@ function Products() {
             <img src="/images/banner_vegetables.png" alt="Fresh grocery basket" className="absolute right-[50px] w-[280px] h-[240px] object-contain mix-blend-multiply" />
           </div>
         </section>
+        )}
 
         {/* 3. MAIN CATALOG SECTION */}
         {(() => {
-          const filtered = activeCategory
-            ? productsList.filter((p) => {
-                if (activeCategory === "Snacks") return ["Snacks", "Beverages", "Bakery"].includes(p.category);
-                return p.category === activeCategory;
-              })
-            : shuffledProducts;
+          const filtered = (() => {
+            let list = activeCategory
+              ? productsList.filter((p) => {
+                  if (activeCategory === "Snacks") return ["Snacks", "Beverages", "Bakery"].includes(p.category);
+                  return p.category === activeCategory;
+                })
+              : shuffledProducts;
+            if (searchQuery) {
+              const normalize = (s) => s.toLowerCase().replace(/\s+/g, "");
+              const tokens = searchQuery.toLowerCase().split(/\s+/).filter(Boolean);
+              const fuzzyMatch = (text, token) => {
+                const t = text.toLowerCase();
+                if (t.includes(token)) return true;
+                // bigram similarity
+                const bigrams = (s) => { const b = new Set(); for (let i = 0; i < s.length - 1; i++) b.add(s[i] + s[i+1]); return b; };
+                const a = bigrams(token), b = bigrams(t);
+                if (a.size === 0) return false;
+                let common = 0; a.forEach(g => { if (b.has(g)) common++; });
+                return (2 * common) / (a.size + b.size) > 0.35;
+              };
+              list = list.filter((p) => {
+                const name = p.name.toLowerCase();
+                const cat = p.category.toLowerCase();
+                const nameNorm = normalize(p.name);
+                const queryNorm = normalize(searchQuery);
+                if (nameNorm.includes(queryNorm) || name.includes(searchQuery.toLowerCase())) return true;
+                return tokens.every(token => fuzzyMatch(name, token) || fuzzyMatch(cat, token));
+              });
+            }
+            if (filterInStock) list = list.filter((p) => p.inStock);
+            if (filterMaxPrice < 300) list = list.filter((p) => p.price <= filterMaxPrice);
+            if (sortBy === "price-asc") list = [...list].sort((a, b) => a.price - b.price);
+            else if (sortBy === "price-desc") list = [...list].sort((a, b) => b.price - a.price);
+            else if (sortBy === "rating") list = [...list].sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+            else if (sortBy === "name") list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+            return list;
+          })();
           return (
             <div className="space-y-4 text-left">
               <div className="flex justify-between items-center shrink-0">
                 <div>
                   <h2 className="text-xl font-bold text-green-900">
-                    {activeCategory ? `${activeCategory === "Snacks" ? "Snacks & Beverages" : activeCategory}` : "All Products"}
+                    {searchQuery ? `Results for "${searchQuery}"` : activeCategory ? `${activeCategory === "Snacks" ? "Snacks & Beverages" : activeCategory}` : "All Products"}
                   </h2>
                   <div className="flex items-center gap-3 mt-0.5">
                     <p className="text-xs text-gray-500">
@@ -265,13 +323,67 @@ function Products() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <button className="flex items-center gap-2 border border-gray-200 bg-white hover:bg-gray-50 px-4 py-2 rounded-full text-xs font-semibold text-gray-700 shadow-sm transition cursor-pointer">
-                    <i className="ri-equalizer-line text-sm text-gray-500"></i>Filter<i className="ri-arrow-down-s-line text-gray-400"></i>
-                  </button>
-                  <button className="flex items-center gap-2 border border-gray-200 bg-white hover:bg-gray-50 px-4 py-2 rounded-full text-xs font-semibold text-gray-700 shadow-sm transition cursor-pointer">
-                    <i className="ri-arrow-up-down-line text-sm text-gray-500"></i>Sort by<i className="ri-arrow-down-s-line text-gray-400"></i>
-                  </button>
+                <div className="flex items-center gap-2.5 relative">
+                  {/* Filter Button */}
+                  <div className="relative">
+                    <button
+                      onClick={() => { setShowFilter(!showFilter); setShowSort(false); }}
+                      className={`flex items-center gap-2 border px-4 py-2 rounded-full text-xs font-semibold shadow-sm transition cursor-pointer ${showFilter ? "bg-green-700 text-white border-green-700" : "bg-white hover:bg-gray-50 text-gray-700 border-gray-200"}`}
+                    >
+                      <i className="ri-equalizer-line text-sm"></i>Filter<i className="ri-arrow-down-s-line"></i>
+                    </button>
+                    {showFilter && (
+                      <div className="absolute right-0 top-10 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 p-4 z-50">
+                        <p className="text-xs font-bold text-gray-700 mb-3">Filter By</p>
+                        <label className="flex items-center gap-2 text-sm text-gray-600 mb-3 cursor-pointer">
+                          <input type="checkbox" checked={filterInStock} onChange={(e) => setFilterInStock(e.target.checked)} className="accent-green-600" />
+                          In Stock Only
+                        </label>
+                        <div>
+                          <p className="text-xs font-semibold text-gray-600 mb-1">Max Price: ₹{filterMaxPrice}</p>
+                          <input type="range" min="10" max="300" value={filterMaxPrice} onChange={(e) => setFilterMaxPrice(Number(e.target.value))}
+                            className="w-full accent-green-600" />
+                          <div className="flex justify-between text-[10px] text-gray-400">
+                            <span>₹10</span><span>₹300</span>
+                          </div>
+                        </div>
+                        <button onClick={() => { setFilterInStock(false); setFilterMaxPrice(300); }}
+                          className="mt-3 w-full text-xs text-red-500 hover:text-red-600 font-semibold cursor-pointer">
+                          Reset Filters
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Sort Button */}
+                  <div className="relative">
+                    <button
+                      onClick={() => { setShowSort(!showSort); setShowFilter(false); }}
+                      className={`flex items-center gap-2 border px-4 py-2 rounded-full text-xs font-semibold shadow-sm transition cursor-pointer ${showSort ? "bg-green-700 text-white border-green-700" : "bg-white hover:bg-gray-50 text-gray-700 border-gray-200"}`}
+                    >
+                      <i className="ri-arrow-up-down-line text-sm"></i>Sort by<i className="ri-arrow-down-s-line"></i>
+                    </button>
+                    {showSort && (
+                      <div className="absolute right-0 top-10 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 p-2 z-50">
+                        {[
+                          { label: "Default",            value: "" },
+                          { label: "Price: Low to High", value: "price-asc" },
+                          { label: "Price: High to Low", value: "price-desc" },
+                          { label: "Top Rated",          value: "rating" },
+                          { label: "Name: A to Z",       value: "name" },
+                        ].map((opt) => (
+                          <button key={opt.value}
+                            onClick={() => { setSortBy(opt.value); setShowSort(false); }}
+                            className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition cursor-pointer ${
+                              sortBy === opt.value ? "bg-green-700 text-white" : "hover:bg-gray-50 text-gray-700"
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-5 gap-4">
