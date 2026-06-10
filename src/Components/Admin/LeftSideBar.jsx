@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import BagImage from "../../Assets/Css/Images/Admin_Left_Bag.png";
 import Logo from "../../Assets/Css/Images/MAIN LOGO.png"
 
@@ -16,6 +16,7 @@ const navItems = [
 ];
 
 function LeftSidebar({ activePage, setActivePage }) {
+  const [showAdminMenu, setShowAdminMenu] = useState(false);
   return (
     <aside className="w-[220px] h-screen overflow-y-auto bg-gradient-to-b from-[#002714] via-[#012e17] to-[#00180c] text-white flex flex-col p-3">
       <div className="flex items-center gap-3 mb-8">
@@ -47,15 +48,45 @@ function LeftSidebar({ activePage, setActivePage }) {
         <img src={BagImage} className="rounded-3xl w-full" />
       </div>
 
-      <div className="bg-white/10 rounded-2xl p-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img src="https://i.pravatar.cc/100" className="w-10 h-10 rounded-full" />
-          <div>
-            <h3 className="font-semibold text-sm">{localStorage.getItem("userName") || "Admin"}</h3>
-            <p className="text-xs text-green-200">Super Admin</p>
+      {/* Super Admin Bar */}
+      <div className="relative">
+        <button
+          onClick={() => setShowAdminMenu(!showAdminMenu)}
+          className="w-full bg-white/10 hover:bg-white/20 transition rounded-2xl p-3 flex items-center justify-between"
+        >
+          <div className="flex items-center gap-3">
+            <img src="https://i.pravatar.cc/100" className="w-10 h-10 rounded-full" />
+            <div className="text-left">
+              <h3 className="font-semibold text-sm">{localStorage.getItem("userName") || "Admin"}</h3>
+              <p className="text-xs text-green-200">Super Admin</p>
+            </div>
           </div>
-        </div>
-        <i className="bi bi-chevron-down"></i>
+          <i className={`bi bi-chevron-${showAdminMenu ? "up" : "down"} text-white/60 text-xs`}></i>
+        </button>
+
+        {showAdminMenu && (
+          <div className="absolute bottom-14 left-0 right-0 bg-[#012e17] border border-white/10 rounded-2xl overflow-hidden shadow-xl z-50">
+            <div className="px-4 py-3 border-b border-white/10">
+              <p className="text-white font-semibold text-sm">{localStorage.getItem("userName") || "Admin"}</p>
+              <p className="text-green-300 text-xs">{localStorage.getItem("email") || ""}</p>
+            </div>
+            <a
+              href="/"
+              className="flex items-center gap-3 px-4 py-2.5 text-white/80 hover:bg-white/10 transition text-sm"
+            >
+              <i className="bi bi-shop text-green-400"></i> Visit Store
+            </a>
+            <button
+              onClick={() => {
+                localStorage.clear();
+                window.location.href = "/login";
+              }}
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-red-400 hover:bg-white/10 transition text-sm"
+            >
+              <i className="bi bi-box-arrow-right"></i> Logout
+            </button>
+          </div>
+        )}
       </div>
     </aside>
   );

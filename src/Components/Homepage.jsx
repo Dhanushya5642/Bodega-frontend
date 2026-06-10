@@ -2,6 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { HeroReadyContext } from "../App";
 import bagImage from "../Assets/Css/Images/Bag_Image_Generated.png";
+import BananaImg from "../Assets/Css/Images/Fruits/banana.png";
+import TomatoImg from "../Assets/Css/Images/Vegetables/Tomato.png";
+import AppleImg from "../Assets/Css/Images/Fruits/apple.png";
+import MaazaImg from "../Assets/Css/Images/Snacks&Beverages/Maaza.png";
+import PaneerImg from "../Assets/Css/Images/DairyEssentials/Paneer.png";
+import MangoImg from "../Assets/Css/Images/Fruits/mango.png";
+import ColgateImg from "../Assets/Css/Images/PersonalCare/Colgate.png";
+import ThumsUpImg from "../Assets/Css/Images/Snacks&Beverages/ThumsUp.png";
 import vegetables from "../Assets/Css/Images/Categories/Fresh_Vegetables.png";
 import fruits from "../Assets/Css/Images/Categories/Fruits_Collections.png";
 import dairy from "../Assets/Css/Images/Categories/Daily_Essentials.png";
@@ -113,6 +121,111 @@ function useTypewriter(lines, charDelay = 40, ready = true) {
   }, [ready]);
 
   return { displayed, done };
+}
+
+const deals = [
+  { name: "Banana Robusta",     price: 37,  old: 55,  img: BananaImg,   tag: "🔥 Hot Deal",   color: "from-yellow-50 to-orange-50",  accent: "bg-orange-500" },
+  { name: "Fresh Tomatoes",     price: 40,  old: 60,  img: TomatoImg,   tag: "🌱 Organic",    color: "from-red-50 to-orange-50",     accent: "bg-red-500" },
+  { name: "Red Apples",         price: 110, old: 150, img: AppleImg,    tag: "⭐ Bestseller",  color: "from-rose-50 to-red-50",       accent: "bg-rose-500" },
+  { name: "Maaza Mango Drink",  price: 40,  old: 50,  img: MaazaImg,    tag: "🥭 Refreshing", color: "from-amber-50 to-yellow-50",   accent: "bg-amber-500" },
+  { name: "Fresh Paneer",       price: 85,  old: 100, img: PaneerImg,   tag: "🥛 Fresh",      color: "from-blue-50 to-indigo-50",    accent: "bg-blue-500" },
+  { name: "Alphonso Mango",     price: 90,  old: 120, img: MangoImg,    tag: "🌟 Seasonal",   color: "from-yellow-50 to-amber-50",   accent: "bg-yellow-500" },
+  { name: "Colgate Toothpaste", price: 99,  old: 120, img: ColgateImg,  tag: "💎 Daily Use",  color: "from-teal-50 to-green-50",     accent: "bg-teal-500" },
+  { name: "Thums Up",           price: 45,  old: 55,  img: ThumsUpImg,  tag: "⚡ Flash Deal",  color: "from-gray-50 to-slate-50",     accent: "bg-gray-700" },
+];
+
+function useCountdown() {
+  const getEndOfDay = () => {
+    const end = new Date();
+    end.setHours(23, 59, 59, 0);
+    return end;
+  };
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const diff = getEndOfDay() - new Date();
+    return { h: Math.floor(diff / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) };
+  });
+  useEffect(() => {
+    const t = setInterval(() => {
+      const diff = getEndOfDay() - new Date();
+      setTimeLeft({ h: Math.floor(diff / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
+    }, 1000);
+    return () => clearInterval(t);
+  }, []);
+  return timeLeft;
+}
+
+function DealsOfTheDay() {
+  const { h, m, s } = useCountdown();
+  const pad = (n) => String(n).padStart(2, "0");
+  return (
+    <section className="max-w-7xl mx-auto px-6 pb-16">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <span className="text-orange-500 text-xs font-bold uppercase tracking-widest">Limited Time</span>
+          <h2 className="text-3xl font-bold text-green-900 mt-1">Deals of the Day</h2>
+        </div>
+        {/* Countdown */}
+        <div className="flex items-center gap-3">
+          <span className="text-gray-500 text-sm font-medium hidden sm:block">Ends in:</span>
+          {[[h, "HRS"], [m, "MIN"], [s, "SEC"]].map(([val, label], i) => (
+            <div key={i} className="flex flex-col items-center">
+              <div className="bg-green-900 text-white font-black text-xl w-14 h-14 rounded-xl flex items-center justify-center shadow-md tabular-nums">
+                {pad(val)}
+              </div>
+              <span className="text-[10px] text-gray-500 font-bold mt-1 tracking-widest">{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Cards grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {deals.map((deal, i) => {
+          const pct = Math.round(((deal.old - deal.price) / deal.old) * 100);
+          return (
+            <div key={i} className={`bg-gradient-to-br ${deal.color} rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer`}>
+              {/* Image area */}
+              <div className="relative h-44 flex items-center justify-center p-4">
+                <img src={deal.img} alt={deal.name} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                <span className={`absolute top-3 left-3 ${deal.accent} text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow`}>
+                  -{pct}%
+                </span>
+                <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-gray-700 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow">
+                  {deal.tag}
+                </span>
+              </div>
+              {/* Info */}
+              <div className="bg-white px-4 pt-3 pb-4">
+                <h3 className="font-bold text-gray-800 text-sm truncate">{deal.name}</h3>
+                <div className="flex items-baseline gap-2 mt-1">
+                  <span className="text-green-700 font-black text-lg">₹{deal.price}</span>
+                  <span className="text-gray-400 text-xs line-through">₹{deal.old}</span>
+                  <span className="ml-auto text-[11px] font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full">Save ₹{deal.old - deal.price}</span>
+                </div>
+                {/* Progress bar showing urgency */}
+                <div className="mt-2.5">
+                  <div className="flex justify-between text-[10px] text-gray-400 mb-1">
+                    <span>Stock left</span>
+                    <span>{20 + i * 7}% remaining</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className={`h-full ${deal.accent} rounded-full`} style={{ width: `${20 + i * 7}%` }}></div>
+                  </div>
+                </div>
+                <Link
+                  to="/products"
+                  className="mt-3 w-full flex items-center justify-center gap-2 bg-green-900 hover:bg-green-700 text-white py-2.5 rounded-xl text-xs font-bold transition duration-200"
+                >
+                  <i className="ri-shopping-cart-2-line"></i> Add to Cart
+                </Link>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
 }
 
 function Homepage() {
@@ -406,61 +519,7 @@ function Homepage() {
       </section>
 
       {/* ── DEALS OF THE DAY ── */}
-      <section className="max-w-7xl mx-auto px-6 pb-16">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <span className="text-orange-500 text-xs font-bold uppercase tracking-widest">Limited Time</span>
-            <h2 className="text-3xl font-bold text-green-900 mt-1">Deals of the Day</h2>
-          </div>
-          <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
-            <i className="ri-timer-flash-line text-orange-500"></i>
-            <span className="text-orange-600 font-bold text-sm">Ends Today</span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {[
-            { name: "Banana Robusta",   price: 37,  old: 55,  img: "https://images.pexels.com/photos/1093038/pexels-photo-1093038.jpeg?w=400",  tag: "🔥 Hot Deal" },
-            { name: "Fresh Tomatoes",   price: 40,  old: 60,  img: "https://images.pexels.com/photos/533360/pexels-photo-533360.jpeg?w=400",   tag: "🌱 Organic" },
-            { name: "Red Apples",       price: 110, old: 150, img: "https://images.pexels.com/photos/1510392/pexels-photo-1510392.jpeg?w=400",  tag: "⭐ Bestseller" },
-            { name: "Orange Juice 1L",  price: 75,  old: 110, img: "https://images.pexels.com/photos/1435735/pexels-photo-1435735.jpeg?w=400",  tag: "🥤 Fresh" },
-          ].map((deal, i) => {
-            const pct = Math.round(((deal.old - deal.price) / deal.old) * 100);
-            return (
-              <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition duration-300 group">
-                <div className="relative overflow-hidden h-44 bg-gray-50">
-                  <img
-                    src={deal.img}
-                    alt={deal.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                    onError={(e) => { e.target.src = "https://cdn.pixabay.com/photo/2017/10/09/19/23/tomato-2834549_640.jpg"; }}
-                  />
-                  <span className="absolute top-3 left-3 bg-orange-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
-                    {pct}% OFF
-                  </span>
-                  <span className="absolute top-3 right-3 bg-white/90 text-gray-700 text-[10px] font-semibold px-2.5 py-1 rounded-full">
-                    {deal.tag}
-                  </span>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-800 text-sm">{deal.name}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-green-700 font-bold text-base">₹{deal.price}</span>
-                    <span className="text-gray-400 text-xs line-through">₹{deal.old}</span>
-                    <span className="ml-auto text-green-600 text-xs font-semibold">Save ₹{deal.old - deal.price}</span>
-                  </div>
-                  <Link
-                    to="/products"
-                    className="mt-3 w-full flex items-center justify-center gap-2 border border-green-700 text-green-700 hover:bg-green-700 hover:text-white py-2 rounded-xl text-xs font-semibold transition"
-                  >
-                    <i className="ri-shopping-cart-2-line"></i> Add to Cart
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      <DealsOfTheDay />
 
       {/* ── STATS STRIP ── */}
       <section className="max-w-7xl mx-auto px-6 pb-16">

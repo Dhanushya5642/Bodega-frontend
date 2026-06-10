@@ -2,185 +2,147 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import loginBg from "../Assets/Css/Images/New_Login.jpeg";
+
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleSignup = async () => {
-  if (!name || !email || !phone || !password) {
-    alert("Please fill all the fields");
-    return;
-  }
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-if (!emailRegex.test(email)) {
-  alert("Please enter a valid email");
-  return;
-}
-const phoneRegex = /^[6-9]\d{9}$/;
-if (!phoneRegex.test(phone)) {
-  alert("Phone number must start with 6, 7, 8, or 9 and contain 10 digits");
-  return;
-}
-if (password.length < 6) {
-  alert("Password must be at least 6 characters");
-  return;
-}
-
-  try {
-    const API_URL = window.location.hostname === "localhost"
-      ? "http://localhost:5000"
-      : "https://bodega-backend-3.onrender.com";
-
-    const res = await axios.post(`${API_URL}/api/user/signup`, { name, email, phone, password });
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userName", name);
-    localStorage.setItem("email", email);
-    localStorage.setItem("phone", phone);
-    alert(res.data.message);
-    navigate("/login");
-  } catch (error) {
-    // If backend is down, fallback to localStorage
-    localStorage.setItem("isLoggedIn", "false");
-    localStorage.setItem("userName", name);
-    localStorage.setItem("email", email);
-    localStorage.setItem("phone", phone);
-    localStorage.setItem("password", password);
-    alert("Account Created Successfully!");
-    navigate("/login");
-  }
-};
+    if (!name || !email || !phone || !password) { alert("Please fill all the fields"); return; }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) { alert("Please enter a valid email"); return; }
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(phone)) { alert("Phone number must start with 6, 7, 8, or 9 and contain 10 digits"); return; }
+    if (password.length < 6) { alert("Password must be at least 6 characters"); return; }
+    try {
+       const API_URL = window.location.hostname === "localhost" ? "http://localhost:5000" : "https://fsd-project-1-backend-completion-341k.onrender.com";
+      //const API_URL = "https://bodega-backend-3.onrender.com";
+      const res = await axios.post(`${API_URL}/api/user/signup`, { name, email, phone, password });
+      localStorage.setItem("userName", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("phone", phone);
+      alert(res.data.message);
+      navigate("/login");
+    } catch (error) {
+      alert(error.response?.data?.message || "Something went wrong. Please try again.");
+    }
+  };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-[#f8f8f5]">
-
-      <div className="bg-white w-[400px] rounded-2xl p-8 shadow-lg">
+    <div
+      style={{
+        backgroundImage: `url(${loginBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+      }}
+      className="flex justify-end items-center min-h-screen pr-32"
+    >
+      <div className="bg-white rounded-xl w-[520px] min-h-[620px] p-8 text-center">
 
         {/* Logo */}
-        <div className="text-center mb-4">
-          <h1 className="text-5xl font-black text-green-900">
-            BODEGA
-          </h1>
-
-          <p className="text-red-700 text-sm">
-            A Place to feel fresh Groceries
-          </p>
+        <div className="m-2">
+          <h1 className="font-[1000] text-5xl text-green-900">BODEGA</h1>
+          <h4 className="text-md text-red-800">A Place to feel fresh Groceries</h4>
         </div>
 
-        {/* Heading */}
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-green-900">
-            Create your account
-          </h2>
+        <div className="w-full">
+          <div className="pl-2">
+            <h4 className="text-[24px] text-[#165a0d] font-bold">Create your account</h4>
+            <p className="text-gray-500 text-[14px]">Enter your details to create your account</p>
+          </div>
 
-          <p className="text-gray-500 text-sm">
-            Join BODEGA for fresh groceries
-          </p>
+          <div className="mt-6">
+            {/* Name */}
+            <div className="border border-gray-200 rounded-2xl flex items-center px-3 py-2 mb-5 w-sm">
+              <i className="ri-user-3-line text-[#2f6d2f] text-xl mr-4"></i>
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full outline-none text-gray-600"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="border border-gray-200 rounded-2xl flex items-center px-3 py-2 mb-5 w-sm">
+              <i className="ri-mail-line text-[#2f6d2f] text-xl mr-4"></i>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full outline-none text-gray-600"
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="border border-gray-200 rounded-2xl flex items-center px-3 py-2 mb-5 w-sm">
+              <i className="ri-smartphone-line text-[#2f6d2f] text-xl mr-4"></i>
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                maxLength={10}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                className="w-full outline-none text-gray-600"
+              />
+            </div>
+
+            {/* Password */}
+            <div className="border border-gray-200 rounded-2xl flex items-center px-3 py-2 mb-3 w-sm">
+              <i className="ri-lock-2-line text-[#2f6d2f] text-xl mr-4"></i>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full outline-none text-gray-600"
+              />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-gray-400 hover:text-gray-600 transition">
+                <i className={`ri-${showPassword ? "eye-off" : "eye"}-line text-xl`}></i>
+              </button>
+            </div>
+          </div>
+
+          {/* Sign Up Button */}
+          <div className="mt-4">
+            <button
+              onClick={handleSignup}
+              className="w-full bg-gradient-to-r from-[#2f7d12] to-[#165a0d] text-white py-3 rounded-2xl font-semibold hover:scale-[1.02] transition duration-300"
+            >
+              Sign Up
+            </button>
+          </div>
+
+          <div className="ml-15">
+            <div className="flex items-center my-2">
+              <div className="flex-1 h-[1px] bg-gray-200"></div>
+              <span className="px-4 text-gray-400 font-medium">OR</span>
+              <div className="flex-1 h-[1px] bg-gray-200"></div>
+            </div>
+
+            <div className="flex gap-4">
+              <button className="flex-1 border border-gray-200 rounded-2xl py-4 flex items-center justify-center gap-3 hover:bg-gray-50 transition">
+                <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" className="w-5 h-5" />
+                <span className="font-small text-gray-700">Continue with Google</span>
+              </button>
+            </div>
+
+            <div className="text-center mt-3">
+              <p className="text-gray-500">
+                Already have an account?{" "}
+                <Link to="/login" className="text-[#2f6d2f] font-semibold">Login</Link>
+              </p>
+            </div>
+          </div>
         </div>
-
-        {/* Full Name */}
-        <div className="border border-gray-200 rounded-xl flex items-center px-4 py-3 mb-4">
-          <i className="ri-user-3-line text-green-700 text-xl mr-3"></i>
-
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full outline-none"
-          />
-        </div>
-
-        {/* Email */}
-        <div className="border border-gray-200 rounded-xl flex items-center px-4 py-3 mb-4">
-          <i className="ri-mail-line text-green-700 text-xl mr-3"></i>
-
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full outline-none"
-          />
-        </div>
-
-        {/* Phone */}
-        <div className="border border-gray-200 rounded-xl flex items-center px-4 py-3 mb-4">
-          <i className="ri-smartphone-line text-green-700 text-xl mr-3"></i>
-
-          <input
-  type="tel"
-  placeholder="Phone Number"
-  maxLength={10}
-  value={phone}
-  onChange={(e) =>
-    setPhone(e.target.value.replace(/\D/g, ""))
-  }
-  className="w-full outline-none"
-/>
-        </div>
-
-        {/* Password */}
-        <div className="border border-gray-200 rounded-xl flex items-center px-4 py-3 mb-5">
-          <i className="ri-lock-2-line text-green-700 text-xl mr-3"></i>
-
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full outline-none"
-          />
-        </div>
-
-        {/* Signup Button */}
-        <button
-          onClick={handleSignup}
-          className="w-full bg-gradient-to-r from-green-700 to-green-900 text-white py-3 rounded-xl font-semibold hover:scale-[1.02] transition"
-        >
-          Sign Up
-        </button>
-
-        {/* Divider */}
-        <div className="flex items-center my-5">
-          <div className="flex-1 h-[1px] bg-gray-200"></div>
-
-          <span className="px-4 text-gray-400 text-sm font-medium">
-            OR
-          </span>
-
-          <div className="flex-1 h-[1px] bg-gray-200"></div>
-        </div>
-
-        {/* Google Button */}
-        <button
-          className="w-full border border-gray-200 rounded-xl py-3 flex items-center justify-center gap-3 hover:bg-gray-50 transition"
-        >
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/300/300221.png"
-            alt="Google"
-            className="w-5 h-5"
-          />
-
-          <span className="text-gray-700 font-medium">
-            Continue with Google
-          </span>
-        </button>
-
-        {/* Login Link */}
-        <div className="text-center mt-5">
-          <p className="text-gray-500 text-sm">
-  Already have an account?{" "}
-  <Link
-    to="/login"
-    className="text-green-800 font-semibold"
-  >
-    Login
-  </Link>
-</p>
-        </div>
-
       </div>
     </div>
   );

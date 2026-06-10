@@ -123,16 +123,15 @@ function Footer() {
           <h3 className="text-white font-bold text-sm uppercase tracking-widest mb-5">Categories</h3>
           <ul className="space-y-3">
             {[
-              { label: "Fresh Vegetables" },
-              { label: "Fruits" },
-              { label: "Dairy & Eggs" },
-              { label: "Snacks" },
-              { label: "Beverages" },
-              { label: "Personal Care" },
-              { label: "Bakery" },
+              { label: "Fresh Vegetables", to: "/products?category=Vegetables" },
+              { label: "Fruits",           to: "/products?category=Fruits" },
+              { label: "Dairy & Eggs",     to: "/products?category=Dairy" },
+              { label: "Snacks",           to: "/products?category=Snacks" },
+              { label: "Beverages",        to: "/products?category=Snacks" },
+              { label: "Personal Care",    to: "/products?category=Personal Care" },
             ].map((c, i) => (
               <li key={i}>
-                <Link to="/products" className="flex items-center gap-2 text-gray-400 hover:text-green-400 text-sm transition group">
+                <Link to={c.to} className="flex items-center gap-2 text-gray-400 hover:text-green-400 text-sm transition group">
                   <i className="ri-arrow-right-s-line text-green-600 group-hover:translate-x-1 transition-transform"></i>
                   {c.label}
                 </Link>

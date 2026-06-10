@@ -62,6 +62,46 @@ import RedCabbageImg from "../Assets/Css/Images/Vegetables/redcabbage.png";
 import RedChiliImg from "../Assets/Css/Images/Vegetables/redchili.png";
 import YellowCapsicumImg from "../Assets/Css/Images/Vegetables/YellowCapsicum.png";
 
+// Personal Care images
+import AxePerfumeImg from "../Assets/Css/Images/PersonalCare/AxePerfume.png";
+import BigenHairDyeImg from "../Assets/Css/Images/PersonalCare/BigenHairDye.png";
+import ColgateImg from "../Assets/Css/Images/PersonalCare/Colgate.png";
+import DettolSoapImg from "../Assets/Css/Images/PersonalCare/DettolSoap.png";
+import GarnierMenImg from "../Assets/Css/Images/PersonalCare/GarnierMen.png";
+import GilleteImg from "../Assets/Css/Images/PersonalCare/Gillete.png";
+import HeadAndShouldersImg from "../Assets/Css/Images/PersonalCare/HeadAndShouldersShampoo.png";
+import ListerineImg from "../Assets/Css/Images/PersonalCare/Listerine.png";
+import LuxImg from "../Assets/Css/Images/PersonalCare/Lux.png";
+import NiveaBodyMilkImg from "../Assets/Css/Images/PersonalCare/NiveaBodyMilk.png";
+import PondsBeautyCreamImg from "../Assets/Css/Images/PersonalCare/PondsBeautyCream.png";
+import RexonaRollOnImg from "../Assets/Css/Images/PersonalCare/RexonaRollOn.png";
+import VaselineAloeImg from "../Assets/Css/Images/PersonalCare/VaselineAloeSmoothBodyLotion.png";
+import VLCCInstaGlowImg from "../Assets/Css/Images/PersonalCare/VLCCInstaGlow.png";
+import WhisperImg from "../Assets/Css/Images/PersonalCare/Whisper.png";
+
+// Snacks & Beverages images
+import BingoMadAnglesImg from "../Assets/Css/Images/Snacks&Beverages/BingoMadAngles.png";
+import BisleriImg from "../Assets/Css/Images/Snacks&Beverages/Bisleri.png";
+import BlueLaysImg from "../Assets/Css/Images/Snacks&Beverages/BlueLays.png";
+import CheetosPuffsImg from "../Assets/Css/Images/Snacks&Beverages/CheetosPuffs.png";
+import DoritosImg from "../Assets/Css/Images/Snacks&Beverages/Doritos.png";
+import FantaImg from "../Assets/Css/Images/Snacks&Beverages/Fanta.png";
+import GreenKurkureImg from "../Assets/Css/Images/Snacks&Beverages/GreenKurkure.png";
+import HaldiramAlooBhujiaImg from "../Assets/Css/Images/Snacks&Beverages/Haldiram'sAlooBhujia.png";
+import HaldiramSamosaImg from "../Assets/Css/Images/Snacks&Beverages/Haldiram'sSamosa.png";
+import LiptonLemonImg from "../Assets/Css/Images/Snacks&Beverages/LiptonLemon.png";
+import MaazaImg from "../Assets/Css/Images/Snacks&Beverages/Maaza.png";
+import MonsterEnergyImg from "../Assets/Css/Images/Snacks&Beverages/Monster_Energy.png";
+import MunchCrunchiliciousImg from "../Assets/Css/Images/Snacks&Beverages/MunchCrunchilicious.png";
+import PepsiImg from "../Assets/Css/Images/Snacks&Beverages/Pepsi.png";
+import PringlesSourCreamImg from "../Assets/Css/Images/Snacks&Beverages/PringlesSourCreamAndOnion.png";
+import PurpleBingoImg from "../Assets/Css/Images/Snacks&Beverages/PurpleBingo.png";
+import RedBullImg from "../Assets/Css/Images/Snacks&Beverages/RedBull.png";
+import SpriteImg from "../Assets/Css/Images/Snacks&Beverages/Sprite.png";
+import ThumsUpImg from "../Assets/Css/Images/Snacks&Beverages/ThumsUp.png";
+import UncleChipsImg from "../Assets/Css/Images/Snacks&Beverages/UncleChips.png";
+import YellowLaysImg from "../Assets/Css/Images/Snacks&Beverages/YellowLays.png";
+
 // Fruit images
 import AppleImg from "../Assets/Css/Images/Fruits/apple.png";
 import BananaImg from "../Assets/Css/Images/Fruits/banana.png";
@@ -168,13 +208,43 @@ function Products() {
     { id: 74, name: "Milk Pudding",             category: "Dairy", weight: "150g",  price: 45,  oldPrice: 60,  rating: "4.6 (200)",  image: MilkPuddingImg,               deliveryTime: "11 min", tags: ["Sweet"],       inStock: true },
     { id: 75, name: "Rice Pudding (Kheer)",     category: "Dairy", weight: "200g",  price: 60,  oldPrice: 80,  rating: "4.7 (310)",  image: RicePuddingImg,               deliveryTime: "12 min", tags: ["Traditional"], inStock: true },
     // Snacks & Beverages
-    { id: 49, name: "Whole Wheat Bread", category: "Bakery",   weight: "400g",    price: 35,  oldPrice: 50,  rating: "4.6 (754)",  image: "/images/bun.webp",   deliveryTime: "15 min", tags: ["Fresh"],      inStock: true },
-    { id: 50, name: "Orange Juice",    category: "Beverages",  weight: "1L",      price: 85,  oldPrice: 110, rating: "4.7 (420)",  image: "https://images.pexels.com/photos/1435735/pexels-photo-1435735.jpeg?w=400", deliveryTime: "10 min", tags: ["Fresh"],  inStock: true },
-    { id: 51, name: "Mixed Nuts",      category: "Snacks",     weight: "200g",    price: 145, oldPrice: 180, rating: "4.8 (530)",  image: "https://images.pexels.com/photos/1295572/pexels-photo-1295572.jpeg?w=400", deliveryTime: "11 min", tags: ["Healthy"],inStock: true },
-    { id: 52, name: "Green Tea",       category: "Beverages",  weight: "25 bags", price: 120, oldPrice: 150, rating: "4.7 (860)",  image: "https://images.pexels.com/photos/1417945/pexels-photo-1417945.jpeg?w=400", deliveryTime: "10 min", tags: ["Healthy"],inStock: true },
+    { id: 49,  name: "Bingo Mad Angles",          category: "Snacks",     weight: "130g",   price: 30,  oldPrice: 40,  rating: "4.7 (1.4k)", image: BingoMadAnglesImg,     deliveryTime: "10 min", tags: ["Bestseller"], inStock: true },
+    { id: 50,  name: "Bisleri Water",              category: "Beverages",  weight: "1L",     price: 20,  oldPrice: 25,  rating: "4.8 (2.1k)", image: BisleriImg,            deliveryTime: "7 min",  tags: ["Fresh"],      inStock: true },
+    { id: 51,  name: "Lays Blue",                  category: "Snacks",     weight: "78g",    price: 30,  oldPrice: 40,  rating: "4.6 (980)",  image: BlueLaysImg,           deliveryTime: "9 min",  tags: ["Bestseller"], inStock: true },
+    { id: 52,  name: "Cheetos Puffs",              category: "Snacks",     weight: "55g",    price: 20,  oldPrice: 28,  rating: "4.5 (760)",  image: CheetosPuffsImg,       deliveryTime: "9 min",  tags: ["Crunchy"],    inStock: true },
+    { id: 76,  name: "Doritos",                    category: "Snacks",     weight: "133g",   price: 99,  oldPrice: 120, rating: "4.7 (870)",  image: DoritosImg,            deliveryTime: "10 min", tags: ["Imported"],   inStock: true },
+    { id: 77,  name: "Fanta",                      category: "Beverages",  weight: "750ml",  price: 45,  oldPrice: 55,  rating: "4.6 (1.1k)", image: FantaImg,              deliveryTime: "8 min",  tags: ["Refreshing"], inStock: true },
+    { id: 78,  name: "Kurkure Green Chutney",      category: "Snacks",     weight: "90g",    price: 20,  oldPrice: 28,  rating: "4.6 (1.3k)", image: GreenKurkureImg,       deliveryTime: "9 min",  tags: ["Bestseller"], inStock: true },
+    { id: 79,  name: "Haldiram's Aloo Bhujia",     category: "Snacks",     weight: "200g",   price: 85,  oldPrice: 100, rating: "4.8 (1.9k)", image: HaldiramAlooBhujiaImg, deliveryTime: "10 min", tags: ["Bestseller"], inStock: true },
+    { id: 80,  name: "Haldiram's Samosa",          category: "Snacks",     weight: "200g",   price: 75,  oldPrice: 90,  rating: "4.7 (1.2k)", image: HaldiramSamosaImg,     deliveryTime: "10 min", tags: ["Popular"],    inStock: true },
+    { id: 81,  name: "Lipton Lemon Iced Tea",      category: "Beverages",  weight: "300ml",  price: 35,  oldPrice: 45,  rating: "4.5 (680)",  image: LiptonLemonImg,        deliveryTime: "8 min",  tags: ["Refreshing"], inStock: true },
+    { id: 82,  name: "Maaza Mango Drink",          category: "Beverages",  weight: "600ml",  price: 40,  oldPrice: 50,  rating: "4.7 (1.6k)", image: MaazaImg,              deliveryTime: "8 min",  tags: ["Bestseller"], inStock: true },
+    { id: 83,  name: "Monster Energy Drink",       category: "Beverages",  weight: "500ml",  price: 125, oldPrice: 150, rating: "4.6 (740)",  image: MonsterEnergyImg,      deliveryTime: "10 min", tags: ["Energy"],     inStock: true },
+    { id: 84,  name: "Munch Crunchilicious",       category: "Snacks",     weight: "50g",    price: 15,  oldPrice: 20,  rating: "4.5 (910)",  image: MunchCrunchiliciousImg,deliveryTime: "8 min",  tags: ["Popular"],    inStock: true },
+    { id: 85,  name: "Pepsi",                      category: "Beverages",  weight: "750ml",  price: 45,  oldPrice: 55,  rating: "4.6 (1.8k)", image: PepsiImg,              deliveryTime: "8 min",  tags: ["Bestseller"], inStock: true },
+    { id: 86,  name: "Pringles Sour Cream & Onion",category: "Snacks",     weight: "107g",   price: 150, oldPrice: 180, rating: "4.7 (620)",  image: PringlesSourCreamImg,  deliveryTime: "11 min", tags: ["Imported"],   inStock: true },
+    { id: 87,  name: "Bingo Purple",               category: "Snacks",     weight: "82g",    price: 30,  oldPrice: 40,  rating: "4.5 (780)",  image: PurpleBingoImg,        deliveryTime: "9 min",  tags: ["Crunchy"],    inStock: true },
+    { id: 88,  name: "Red Bull Energy Drink",      category: "Beverages",  weight: "250ml",  price: 130, oldPrice: 160, rating: "4.7 (950)",  image: RedBullImg,            deliveryTime: "10 min", tags: ["Energy"],     inStock: true },
+    { id: 89,  name: "Sprite",                     category: "Beverages",  weight: "750ml",  price: 45,  oldPrice: 55,  rating: "4.6 (1.4k)", image: SpriteImg,             deliveryTime: "8 min",  tags: ["Refreshing"], inStock: true },
+    { id: 90,  name: "Thums Up",                   category: "Beverages",  weight: "750ml",  price: 45,  oldPrice: 55,  rating: "4.8 (2.0k)", image: ThumsUpImg,            deliveryTime: "8 min",  tags: ["Bestseller"], inStock: true },
+    { id: 91,  name: "Uncle Chips",                category: "Snacks",     weight: "75g",    price: 20,  oldPrice: 28,  rating: "4.5 (830)",  image: UncleChipsImg,         deliveryTime: "9 min",  tags: ["Popular"],    inStock: true },
+    { id: 92,  name: "Lays Classic Salted",        category: "Snacks",     weight: "78g",    price: 30,  oldPrice: 40,  rating: "4.7 (1.1k)", image: YellowLaysImg,         deliveryTime: "9 min",  tags: ["Bestseller"], inStock: true },
     // Personal Care
-    { id: 53, name: "Aloe Vera Gel",   category: "Personal Care", weight: "150ml", price: 120, oldPrice: 160, rating: "4.7 (430)", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?w=400", deliveryTime: "12 min", tags: ["Organic"],inStock: true },
-    { id: 54, name: "Coconut Oil",     category: "Personal Care", weight: "200ml", price: 95,  oldPrice: 130, rating: "4.8 (890)", image: "https://images.pexels.com/photos/3737589/pexels-photo-3737589.jpeg?w=400", deliveryTime: "11 min", tags: ["Pure"],   inStock: true },
+    { id: 53,  name: "Axe Perfume",               category: "Personal Care", weight: "150ml", price: 299, oldPrice: 350, rating: "4.6 (1.2k)", image: AxePerfumeImg,        deliveryTime: "11 min", tags: ["Popular"],    inStock: true },
+    { id: 54,  name: "Bigen Hair Dye",            category: "Personal Care", weight: "1 pc",  price: 180, oldPrice: 220, rating: "4.5 (430)",  image: BigenHairDyeImg,     deliveryTime: "12 min", tags: ["Popular"],    inStock: true },
+    { id: 93,  name: "Colgate Toothpaste",        category: "Personal Care", weight: "200g",  price: 99,  oldPrice: 120, rating: "4.8 (2.3k)", image: ColgateImg,          deliveryTime: "9 min",  tags: ["Bestseller"], inStock: true },
+    { id: 94,  name: "Dettol Soap",               category: "Personal Care", weight: "75g",   price: 45,  oldPrice: 55,  rating: "4.7 (1.8k)", image: DettolSoapImg,       deliveryTime: "9 min",  tags: ["Bestseller"], inStock: true },
+    { id: 95,  name: "Garnier Men Face Wash",     category: "Personal Care", weight: "100ml", price: 149, oldPrice: 180, rating: "4.6 (870)",  image: GarnierMenImg,       deliveryTime: "11 min", tags: ["Popular"],    inStock: true },
+    { id: 96,  name: "Gillette Razor",            category: "Personal Care", weight: "1 pc",  price: 199, oldPrice: 250, rating: "4.7 (1.1k)", image: GilleteImg,          deliveryTime: "10 min", tags: ["Bestseller"], inStock: true },
+    { id: 97,  name: "Head & Shoulders Shampoo",  category: "Personal Care", weight: "340ml", price: 299, oldPrice: 360, rating: "4.7 (1.5k)", image: HeadAndShouldersImg, deliveryTime: "11 min", tags: ["Bestseller"], inStock: true },
+    { id: 98,  name: "Listerine Mouthwash",       category: "Personal Care", weight: "250ml", price: 175, oldPrice: 210, rating: "4.6 (790)",  image: ListerineImg,        deliveryTime: "11 min", tags: ["Fresh"],      inStock: true },
+    { id: 99,  name: "Lux Soap",                  category: "Personal Care", weight: "75g",   price: 35,  oldPrice: 45,  rating: "4.6 (1.4k)", image: LuxImg,              deliveryTime: "9 min",  tags: ["Popular"],    inStock: true },
+    { id: 100, name: "Nivea Body Milk Lotion",    category: "Personal Care", weight: "400ml", price: 399, oldPrice: 470, rating: "4.7 (920)",  image: NiveaBodyMilkImg,    deliveryTime: "12 min", tags: ["Popular"],    inStock: true },
+    { id: 101, name: "Pond's Beauty Cream",       category: "Personal Care", weight: "100g",  price: 129, oldPrice: 155, rating: "4.6 (1.0k)", image: PondsBeautyCreamImg, deliveryTime: "10 min", tags: ["Popular"],    inStock: true },
+    { id: 102, name: "Rexona Roll-On Deodorant",  category: "Personal Care", weight: "50ml",  price: 175, oldPrice: 210, rating: "4.5 (680)",  image: RexonaRollOnImg,     deliveryTime: "11 min", tags: ["Fresh"],      inStock: true },
+    { id: 103, name: "Vaseline Aloe Body Lotion", category: "Personal Care", weight: "400ml", price: 299, oldPrice: 350, rating: "4.7 (830)",  image: VaselineAloeImg,     deliveryTime: "12 min", tags: ["Popular"],    inStock: true },
+    { id: 104, name: "VLCC Insta Glow Bleach",    category: "Personal Care", weight: "402g",  price: 249, oldPrice: 299, rating: "4.5 (560)",  image: VLCCInstaGlowImg,    deliveryTime: "12 min", tags: ["Popular"],    inStock: true },
+    { id: 105, name: "Whisper Sanitary Pads",     category: "Personal Care", weight: "1 pack",price: 89,  oldPrice: 110, rating: "4.8 (2.0k)", image: WhisperImg,          deliveryTime: "10 min", tags: ["Bestseller"], inStock: true },
   ];
 
   const shuffledProducts = useMemo(() => [...productsList].sort(() => Math.random() - 0.5), []);
